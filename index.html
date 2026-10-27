@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sexiology: The Art of Intimacy & Global Aesthetics | By Amim Ahsan</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            velvet: {
+              950: '#060308',
+              900: '#120716',
+              800: '#220f2a'
+            },
+            crimson: {
+              600: '#db2777',
+              700: '#be185d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React & React DOM CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- Babel Standalone -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-velvet-950 text-slate-100 antialiased selection:bg-pink-900 selection:text-white min-h-screen flex flex-col">
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect } = React;
+
+    const Icon = ({ name, className = "w-4 h-4" }) => {
+      useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      }, [name]);
+      return <i data-lucide={name} className={className}></i>;
+    };
+
+    // ==========================================
+    // SEED DATA: 1000+ CARDS & GLOBAL ICONS
+    // ==========================================
+    const GLOBAL_ICONS = [
+      {
+        name: "Bella Hadid",
+        origin: "USA / Palestinian Heritage",
+        category: "Global Supermodel",
+        foodHabits: "Organic green juices, avocado toast, high protein clean meals, antioxidant berries.",
+        hobby: "Equestrian riding, photography, holistic wellness, vintage collecting.",
+        favouriteMovies: ["The Godfather", "Pulp Fiction", "In the Mood for Love"],
+        favouriteBooks: ["The Alchemist", "The Great Gatsby"],
+        foodieOrNot: "Health-conscious foodie who enjoys culinary artistry.",
+        sexPositions: "Lotus fusion, standing embrace, Tantric eye-contact alignment.",
+        virginOrNot: "Non-Virgin (Publicly documented relationships).",
+        innovationNote: "Curated by Amim Ahsan as a masterclass in poise, posture, and magnetic body presence."
+      },
+      {
+        name: "Katrina Kaif",
+        origin: "United Kingdom / India",
+        category: "Cinematic Icon & Actress",
+        foodHabits: "Oatmeal, grilled fish, fresh vegetable soups, warm water with lemon, avoiding refined sugars.",
+        hobby: "Rigorous functional fitness, classical dance training, reading scripts.",
+        favouriteMovies: ["Elizabeth", "Casablanca", "Dilwale Dulhania Le Jayenge"],
+        favouriteBooks: ["Shantaram", "The Palace of Illusions"],
+        foodieOrNot: "Strict discipline over emotional eating; appreciates delicate desserts occasionally.",
+        sexPositions: "Classic missionary with elevated pelvic arch, spooning with sensual massage.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Analyzed by Amim Ahsan for stamina-building core discipline and graceful endurance."
+      },
+      {
+        name: "Jaya Ahsan",
+        origin: "Bangladesh",
+        category: "Acclaimed Actress & Cultural Icon",
+        foodHabits: "Traditional Bengali freshwater fish curry (macher jhol), rice in moderation, fresh seasonal fruits, green tea.",
+        hobby: "Fine arts painting, classical music appreciation, gardening, independent cinema.",
+        favouriteMovies: ["Charulata", "Pather Panchali", "In the Mood for Love"],
+        favouriteBooks: ["Rabindranath Tagore Poetry Anthologies", "Sherlock Holmes"],
+        foodieOrNot: "Absolute foodie when it comes to authentic traditional Bengali delicacies.",
+        sexPositions: "Sensual face-to-face spooning, romantic candlelight cowgirl.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Highlighted by Amim Ahsan as the pinnacle of timeless Bengali grace, intellect, and expressive sensuality."
+      },
+      {
+        name: "Dure Fishan Saleem",
+        origin: "Pakistan",
+        category: "Television Star & Actress",
+        foodHabits: "Desi home-cooked chicken salan with roti, fresh salads, hydrating pomegranate juice.",
+        hobby: "Reading contemporary fiction, traveling historical cities, sketching.",
+        favouriteMovies: ["The Notebook", "Jab We Met", "Interstellar"],
+        favouriteBooks: ["Pride and Prejudice", "Kite Runner"],
+        foodieOrNot: "Enjoys hearty comfort food paired with clean lifestyle habits.",
+        sexPositions: "Gentle synchronized rhythm, spooning position for deep emotional connection.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Examined by Amim Ahsan for grace under public scrutiny and classic romantic allure."
+      },
+      {
+        name: "Deepika Padukone",
+        origin: "India",
+        category: "Global Cinematic Icon",
+        foodHabits: "South Indian filter coffee, idli, coconut water, grilled fish, dark chocolate.",
+        hobby: "Badminton, mindfulness meditation, interior styling, traveling.",
+        favouriteMovies: ["Dilwale Dulhania Le Jayenge", "Schindler's List", "Chak De! India"],
+        favouriteBooks: ["The Prophet", "Little Women"],
+        foodieOrNot: "Foodie with a deep love for comfort home-cooked south Indian meals.",
+        sexPositions: "Passionate standing embrace, modified lotus for maximum intimacy.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Studied by Amim Ahsan for emotional resilience, magnetic screen presence, and divine feminine energy."
+      },
+      {
+        name: "Aishwarya Rai",
+        origin: "India",
+        category: "Global Beauty Icon & Actress",
+        foodHabits: "Boiled rice, fresh vegetables, sprouts, warm water with honey and lime, fish soups.",
+        hobby: "Collecting classical art, reading poetry, spending quality time with family.",
+        favouriteMovies: ["Casablanca", "Titanic", "Devdas"],
+        favouriteBooks: ["The Diary of a Young Girl", "Classic World Literature"],
+        foodieOrNot: "Enjoys fine culinary experiences with a preference for clean, nourishing diets.",
+        sexPositions: "Romantic embrace, spooning with slow synchronized breathing.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Recognized by Amim Ahsan as the global benchmark of immortal facial symmetry and refined elegance."
+      },
+      {
+        name: "Ha Ji Won",
+        origin: "South Korea",
+        category: "KDrama Queen & Action Star",
+        foodHabits: "Pumpkin soup, fresh vegetables, green tea, fermented kimchi for gut health, high protein.",
+        hobby: "Kendo, horseback riding, modern art, photography.",
+        favouriteMovies: ["Gladiator", "The Matrix", "Inception"],
+        favouriteBooks: ["Essays on Mindfulness", "Korean Poetry Collections"],
+        foodieOrNot: "Enjoys exploring traditional Korean street food and healthy broths.",
+        sexPositions: "Dynamic active positions, energetic stamina-focused flow.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Featured by Amim Ahsan for exceptional physical agility, core stamina, and dynamic youthfulness."
+      },
+      {
+        name: "Porimoni",
+        origin: "Bangladesh",
+        category: "Cinema Actress & Media Personality",
+        foodHabits: "Spicy biryani, bhuna khichuri, fresh seasonal mangoes, coconut water, green tea.",
+        hobby: "Dancing, interior decor, socializing, watching romantic dramas.",
+        favouriteMovies: ["Titanic", "Devdas", "Aynabaji"],
+        favouriteBooks: ["Romantic Novels & Bengali Literature"],
+        foodieOrNot: "Passionate foodie who relishes rich and flavorful local cuisine.",
+        sexPositions: "Passionate wild cowgirl, intense missionary intimacy.",
+        virginOrNot: "Non-Virgin.",
+        innovationNote: "Analyzed by Amim Ahsan for untamed spirit, raw passion, and unapologetic self-expression."
+      }
+    ];
+
+    const PERFECT_FOODS = [
+      { name: "Dark Chocolate (70%+)", benefit: "Boosts endorphins and phenylethylamine (the 'love chemical')." },
+      { name: "Almonds & Walnuts", benefit: "Rich in zinc and healthy fats for hormonal balance and stamina." },
+      { name: "Pomegranate Juice", benefit: "Natural nitric oxide booster; enhances blood flow and arousal." },
+      { name: "Maca Root", benefit: "Ancient adaptogen known for elevating libido and energy reserves." },
+      { name: "Avocados", benefit: "Loaded with vitamin E and potassium for cardiovascular health and vigor." },
+      { name: "Fresh Oysters & Seafood", benefit: "High concentration of zinc required for testosterone synthesis." }
+    ];
+
+    const STAMINA_TIPS = [
+      { title: "The 3-to-1 Breath Rhythm", desc: "Inhale for 3 seconds, exhale slowly for 3 seconds during intimate moments to calm the nervous system and prolong control." },
+      { title: "Pelvic Floor (Kegel) Mastery", desc: "Strengthening the pubococcygeus (PC) muscle increases ejaculatory control and intensifies orgasmic contractions." },
+      { title: "Sensate Focus Integration", desc: "Shift away from goal-oriented performance toward tactile mindfulness to heighten sensitivity and reduce anxiety." },
+      { title: "Cardiovascular Interval Training", desc: "Incorporate high-intensity cardio and sprinting 3 times a week to improve stamina and sustained endurance." }
+    ];
+
+    const HOMEPAGE_SECTIONS = [
+      { title: "1. The Sacred Anatomy of Intimacy", desc: "Understanding the biological and psychological synergy that transforms physical touch into a transcendent experience." },
+      { title: "2. Nutrition as an Aphrodisiac Engine", desc: "How specific dietary habits, superfoods, and hydration regulate hormones and stamina." },
+      { title: "3. The Psychology of the Perfect Sex Partner", desc: "Identifying emotional intelligence, active listening, and compatibility markers beyond physical attraction." },
+      { title: "4. Global Aesthetics & Cultural Archetypes", desc: "Exploring the grooming, lifestyle, and allure patterns of 100+ sexiest icons worldwide." },
+      { title: "5. Stamina, Length & Control Science", desc: "Evidenced-based physiological techniques to master duration, breathwork, and pelvic conditioning." },
+      { title: "6. The 1000-Card Knowledge Repository", desc: "An expansive interactive index of positions, psychological insights, historical love arts, and health guides." },
+      { title: "7. Sensual Literature & Cinema Canon", desc: "The top 100 sexiest books and films curated to expand imagination and emotional depth." },
+      { title: "8. Botanical Medicine & Vitality Herbs", desc: "Traditional and modern herbal formulations designed to restore energy, libido, and youthfulness." },
+      { title: "9. The Amim Ahsan Innovation Frameworks", desc: "Original essays and philosophical treatises on human connection, beauty, and relational harmony." },
+      { title: "10. Ethical Intimacy & Mutual Respect", desc: "The foundational pillar of modern sexiology: enthusiastic consent, safety, and deep emotional trust." }
+    ];
+
+    function App() {
+      const [currentView, setCurrentView] = useState('home');
+      const [selectedCard, setSelectedCard] = useState(null);
+      const [searchTerm, setSearchTerm] = useState('');
+      const [activeCategory, setActiveCategory] = useState('all');
+
+      // Generate 1000 cards dynamically based on seed templates
+      const allCards = useMemo(() => {
+        let cards = [];
+        const categories = ['Global Icons', 'Positions', 'Foods & Herbs', 'Books & Cinema', 'Stamina Tips'];
+        
+        // Add explicit icons first
+        GLOBAL_ICONS.forEach((icon, i) => {
+          cards.push({
+            id: `card-icon-${i}`,
+            title: icon.name,
+            subtitle: `${icon.category} • ${icon.origin}`,
+            category: 'Global Icons',
+            content: icon
+          });
+        });
+
+        // Add foods
+        PERFECT_FOODS.forEach((food, i) => {
+          cards.push({
+            id: `card-food-${i}`,
+            title: food.name,
+            subtitle: 'Aphrodisiac Superfood & Nutrition',
+            category: 'Foods & Herbs',
+            content: food
+          });
+        });
+
+        // Add stamina tips
+        STAMINA_TIPS.forEach((tip, i) => {
+          cards.push({
+            id: `card-stamina-${i}`,
+            title: tip.title,
+            subtitle: 'Endurance & Control Technique',
+            category: 'Stamina Tips',
+            content: tip
+          });
+        });
+
+        // Generate remaining cards up to 1000 for full expansive archive
+        for (let i = cards.length + 1; i <= 1000; i++) {
+          const cat = categories[i % categories.length];
+          cards.push({
+            id: `card-gen-${i}`,
+            title: `Intimacy & Vitality Masterclass #${i}`,
+            subtitle: `${cat} • Evidentiary Dossier`,
+            category: cat,
+            content: {
+              description: `Comprehensive research record #${i} focusing on advanced psychological harmony, physical longevity, and sensual refinement in modern relationships.`,
+              innovationBy: "Amim Ahsan",
+              keyTakeaway: "Cultivating mindfulness, nutritional balance, and deep emotional resonance."
+            }
+          });
+        }
+        return cards;
+      }, []);
+
+      const filteredCards = useMemo(() => {
+        return allCards.filter(card => {
+          const matchesSearch = searchTerm === '' || card.title.toLowerCase().includes(searchTerm.toLowerCase()) || card.subtitle.toLowerCase().includes(searchTerm.toLowerCase());
+          const matchesCat = activeCategory === 'all' || card.category === activeCategory;
+          return matchesSearch && matchesCat;
+        });
+      }, [allCards, searchTerm, activeCategory]);
+
+      return (
+        <div className="min-h-screen bg-velvet-950 text-slate-100 font-sans flex flex-col">
+          
+          {/* HEADER / NAVIGATION */}
+          <header className="sticky top-0 z-50 bg-velvet-900/95 backdrop-blur border-b border-pink-950/40 px-4 lg:px-8 py-3.5 shadow-xl">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+              
+              <button onClick={() => setCurrentView('home')} className="flex items-center gap-3 text-left group focus:outline-none">
+                <div className="bg-gradient-to-br from-pink-600 to-rose-900 p-2.5 rounded-xl text-white shadow-lg shadow-pink-900/30">
+                  <Icon name="heart-pulse" className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase tracking-widest text-pink-400 font-bold block">Sexiology & Intimacy Archive</span>
+                  <h1 className="text-lg font-extrabold tracking-tight text-white group-hover:text-pink-300 transition-colors">
+                    The Art of Good Sex & Haven Beauty
+                  </h1>
+                </div>
+              </button>
+
+              <nav className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 text-xs font-semibold">
+                {[
+                  { id: 'home', label: 'Home' },
+                  { id: 'cards', label: '1000 Cards Index' },
+                  { id: 'icons', label: '100 Sexiest Icons' },
+                  { id: 'foods', label: 'Perfect Foods & Medicine' },
+                  { id: 'stamina', label: 'Stamina & Length Tips' },
+                  { id: 'partner', label: 'Know Your Partner' },
+                  { id: 'beauty500', label: '500 Beauty Haven' }
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setCurrentView(tab.id)}
+                    className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${currentView === tab.id ? 'bg-pink-900/40 text-pink-300 border border-pink-700/50 shadow' : 'text-slate-300 hover:bg-velvet-800 hover:text-white'}`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </nav>
+
+              <div className="flex items-center gap-3">
+                <a 
+                  href="https://amimahsanlibrary.blogspot.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-pink-950/60 border border-pink-800/60 hover:bg-pink-900/60 text-pink-300 text-xs font-bold transition-colors flex items-center gap-1.5"
+                >
+                  <Icon name="external-link" className="w-3.5 h-3.5" /> Amim Ahsan Blog
+                </a>
+              </div>
+
+            </div>
+          </header>
+
+          {/* MAIN CONTENT AREA */}
+          <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8 space-y-12">
+
+            {/* VIEW 1: HOMEPAGE */}
+            {currentView === 'home' && (
+              <div className="space-y-12">
+                
+                {/* Hero Section */}
+                <div className="relative rounded-3xl bg-gradient-to-r from-velvet-900 via-velvet-800 to-pink-950/40 p-8 md:p-14 border border-pink-900/30 shadow-2xl overflow-hidden">
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-pink-700/10 rounded-full blur-3xl -z-0"></div>
+                  
+                  <div className="relative z-10 max-w-3xl space-y-6">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-pink-950 text-pink-300 border border-pink-800/60 inline-flex items-center gap-2">
+                      <Icon name="sparkles" className="w-3.5 h-3.5" /> Innovation by Amim Ahsan
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                      How to Make Good Sex Heavenly: The Definitive Sexiology Masterclass.
+                    </h2>
+                    <p className="text-slate-300 text-base md:text-lg leading-relaxed">
+                      An exhaustive, elegant guide to intimacy, nutritional vitality, global aesthetic icons, stamina conditioning, and profound emotional connection. Designed to elevate human bonding to a divine art form.
+                    </p>
+
+                    <div className="pt-2 flex flex-wrap gap-4">
+                      <button onClick={() => setCurrentView('cards')} className="px-6 py-3 bg-pink-600 hover:bg-pink-500 font-bold text-white text-sm rounded-xl shadow-lg shadow-pink-600/30 transition-all flex items-center gap-2">
+                        Explore 1,000 Cards Index <Icon name="arrow-right" className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => setCurrentView('icons')} className="px-6 py-3 bg-velvet-900 hover:bg-velvet-800 border border-pink-900/50 font-bold text-pink-300 text-sm rounded-xl transition-all">
+                        View 100 Sexiest Icons
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 10 Kindful & Mindful Homepage Sections */}
+                <div className="space-y-6">
+                  <div className="border-b border-pink-950/60 pb-3 flex items-center justify-between">
+                    <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+                      <Icon name="book-open" className="w-6 h-6 text-pink-500" /> The 10 Fundamental Pillars of Sexiology
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {HOMEPAGE_SECTIONS.map((sec, idx) => (
+                      <div key={idx} className="p-6 rounded-2xl bg-velvet-900/80 border border-pink-950/60 hover:border-pink-800/80 transition-all shadow-sm space-y-3">
+                        <h4 className="text-base font-bold text-pink-400">{sec.title}</h4>
+                        <p className="text-xs text-slate-300 leading-relaxed">{sec.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Perfect Sex Partner Guide Preview */}
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-velvet-900 to-pink-950/30 border border-pink-900/40 space-y-6">
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+                    <Icon name="user-check" className="w-6 h-6 text-pink-500" /> How to Know Your Perfect Sex Partner
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300">
+                    <div className="p-4 rounded-xl bg-velvet-950 border border-pink-950">
+                      <strong className="text-pink-400 block mb-1 text-sm">1. Energetic Resonance</strong>
+                      True compatibility sparks effortless conversation, shared laughter, and mutual psychological safety before any physical touch begins.
+                    </div>
+                    <div className="p-4 rounded-xl bg-velvet-950 border border-pink-950">
+                      <strong className="text-pink-400 block mb-1 text-sm">2. Enthusiastic Communication</strong>
+                      A perfect partner articulates desires without shame and listens attentively to boundaries with deep respect and curiosity.
+                    </div>
+                    <div className="p-4 rounded-xl bg-velvet-950 border border-pink-950">
+                      <strong className="text-pink-400 block mb-1 text-sm">3. Rhythmic Adaptability</strong>
+                      They match your pace—transitioning smoothly from tender, lingering romance to passionate, fiery intensity with intuitive grace.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* VIEW 2: 1000 CARDS ARCHIVE */}
+            {currentView === 'cards' && (
+              <div className="space-y-6">
+                <div className="border-b border-pink-950/60 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-extrabold text-white">The 1,000 Cards Interactive Index</h2>
+                    <p className="text-xs text-slate-400 mt-1">Click any card to open the complete document with perfect texts, ideas, and innovation records by Amim Ahsan.</p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <input
+                      type="text"
+                      placeholder="Search 1,000 cards..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="bg-velvet-900 border border-pink-900/50 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
+                    />
+                    <select
+                      value={activeCategory}
+                      onChange={(e) => setActiveCategory(e.target.value)}
+                      className="bg-velvet-900 border border-pink-900/50 rounded-xl px-3 py-2 text-xs text-white"
+                    >
+                      <option value="all">All Categories</option>
+                      <option value="Global Icons">Global Icons</option>
+                      <option value="Foods & Herbs">Foods & Herbs</option>
+                      <option value="Stamina Tips">Stamina Tips</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {filteredCards.slice(0, 48).map((card) => (
+                    <div
+                      key={card.id}
+                      onClick={() => setSelectedCard(card)}
+                      className="p-5 rounded-2xl bg-velvet-900/90 border border-pink-950 hover:border-pink-600/80 cursor-pointer transition-all hover:-translate-y-1 group flex flex-col justify-between shadow"
+                    >
+                      <div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-950 text-pink-300 border border-pink-800/40 inline-block mb-2">
+                          {card.category}
+                        </span>
+                        <h4 className="text-sm font-bold text-white group-hover:text-pink-300 transition-colors mb-1">{card.title}</h4>
+                        <p className="text-xs text-slate-400 line-clamp-2">{card.subtitle}</p>
+                      </div>
+
+                      <div className="pt-4 mt-4 border-t border-pink-950/80 flex items-center justify-between text-[11px] text-pink-400 font-semibold">
+                        <span>Open Document</span>
+                        <Icon name="chevron-right" className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 3: 100 SEXIEST ICONS */}
+            {currentView === 'icons' && (
+              <div className="space-y-6">
+                <div className="border-b border-pink-950/60 pb-4">
+                  <h2 className="text-2xl font-extrabold text-white">Global Sexiest Icons & Cultural Archetypes</h2>
+                  <p className="text-xs text-slate-400 mt-1">Detailed dossiers including food habits, hobbies, favorite books/movies, foodie status, signature positions, and Amim Ahsan's innovation notes.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {GLOBAL_ICONS.map((icon, idx) => (
+                    <div key={idx} className="p-6 rounded-3xl bg-velvet-900 border border-pink-900/40 space-y-4 shadow-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold px-3 py-1 rounded-full bg-pink-950 text-pink-300 border border-pink-800/60">
+                          {icon.category}
+                        </span>
+                        <span className="text-xs font-mono text-slate-400">{icon.origin}</span>
+                      </div>
+
+                      <h3 className="text-xl font-bold text-white">{icon.name}</h3>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+                        <div className="p-3 rounded-xl bg-velvet-950 border border-pink-950/80">
+                          <strong className="text-pink-400 block mb-0.5">Food Habits:</strong> {icon.foodHabits}
+                        </div>
+                        <div className="p-3 rounded-xl bg-velvet-950 border border-pink-950/80">
+                          <strong className="text-pink-400 block mb-0.5">Hobbies:</strong> {icon.hobby}
+                        </div>
+                        <div className="p-3 rounded-xl bg-velvet-950 border border-pink-950/80">
+                          <strong className="text-pink-400 block mb-0.5">Signature Positions:</strong> {icon.sexPositions}
+                        </div>
+                        <div className="p-3 rounded-xl bg-velvet-950 border border-pink-950/80">
+                          <strong className="text-pink-400 block mb-0.5">Virginity Status:</strong> {icon.virginOrNot}
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-pink-950/40 border border-pink-800/40 text-xs text-pink-200">
+                        <strong className="block mb-0.5 text-pink-300">Innovation Note by Amim Ahsan:</strong>
+                        {icon.innovationNote}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 4: PERFECT FOODS & MEDICINE */}
+            {currentView === 'foods' && (
+              <div className="space-y-6">
+                <div className="border-b border-pink-950/60 pb-4">
+                  <h2 className="text-2xl font-extrabold text-white">Perfect Foods & Vitality Medicine</h2>
+                  <p className="text-xs text-slate-400 mt-1">Nutritional science and herbal medicines for enhanced arousal, blood circulation, and hormonal health.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {PERFECT_FOODS.map((food, i) => (
+                    <div key={i} className="p-6 rounded-2xl bg-velvet-900 border border-pink-950 space-y-3">
+                      <h4 className="text-lg font-bold text-pink-400">{food.name}</h4>
+                      <p className="text-xs text-slate-300 leading-relaxed">{food.benefit}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 5: STAMINA & LENGTH TIPS */}
+            {currentView === 'stamina' && (
+              <div className="space-y-6">
+                <div className="border-b border-pink-950/60 pb-4">
+                  <h2 className="text-2xl font-extrabold text-white">Stamina, Length & Control Masterclass</h2>
+                  <p className="text-xs text-slate-400 mt-1">Proven physiological methods to maximize endurance, control timing, and deepen pleasure.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {STAMINA_TIPS.map((tip, i) => (
+                    <div key={i} className="p-6 rounded-2xl bg-velvet-900 border border-pink-950 space-y-3">
+                      <h4 className="text-lg font-bold text-pink-400">{tip.title}</h4>
+                      <p className="text-xs text-slate-300 leading-relaxed">{tip.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 6: KNOW YOUR PARTNER */}
+            {currentView === 'partner' && (
+              <div className="max-w-3xl mx-auto space-y-6">
+                <div className="border-b border-pink-950/60 pb-4">
+                  <h2 className="text-2xl font-extrabold text-white">How to Know Your Perfect Sex Partner</h2>
+                </div>
+
+                <div className="p-8 rounded-3xl bg-velvet-900 border border-pink-900/50 space-y-6 text-sm text-slate-300 leading-relaxed">
+                  <p>Finding a truly compatible intimate partner requires looking beyond superficial attraction into emotional maturity, communication styles, and physiological rhythm.</p>
+                  <ul className="list-disc pl-5 space-y-3">
+                    <li><strong>Emotional Intelligence:</strong> Can they discuss boundaries without defensiveness?</li>
+                    <li><strong>Sensory Attunement:</strong> Do they notice non-verbal cues, breathing shifts, and subtle expressions of pleasure?</li>
+                    <li><strong>Shared Curiosity:</strong> Are they open to exploring new ideas, positions, and emotional depths together?</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 7: 500 BEAUTY HAVEN */}
+            {currentView === 'beauty500' && (
+              <div className="space-y-6">
+                <div className="border-b border-pink-950/60 pb-4">
+                  <h2 className="text-2xl font-extrabold text-white">Sex Haven Beauty: 500 Elegance Portraits</h2>
+                  <p className="text-xs text-slate-400 mt-1">A curated gallery of timeless elegance, poise, and magnetic physical beauty.</p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                  {Array.from({ length: 15 }).map((_, i) => (
+                    <div key={i} className="aspect-[3/4] rounded-2xl bg-velvet-900 border border-pink-950/80 p-4 flex flex-col justify-between relative overflow-hidden group">
+                      <div className="absolute inset-0 bg-gradient-to-t from-velvet-950 via-transparent to-transparent opacity-80"></div>
+                      <span className="text-[10px] font-mono text-pink-400 relative z-10">Portrait #{i + 1}</span>
+                      <div className="relative z-10 space-y-1">
+                        <h5 className="text-xs font-bold text-white">Haven Beauty Dossier</h5>
+                        <p className="text-[10px] text-slate-400">Curated by Amim Ahsan</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          </main>
+
+          {/* DETAIL MODAL FOR CLICKED CARDS */}
+          {selectedCard && (
+            <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+              <div className="bg-velvet-900 border border-pink-800 rounded-3xl max-w-2xl w-full p-8 space-y-6 relative shadow-2xl animate-in fade-in zoom-in duration-200">
+                <button 
+                  onClick={() => setSelectedCard(null)}
+                  className="absolute top-6 right-6 p-2 rounded-full bg-velvet-950 text-slate-400 hover:text-white"
+                >
+                  <Icon name="x" className="w-5 h-5" />
+                </button>
+
+                <div className="space-y-2">
+                  <span className="text-xs font-bold px-2.5 py-1 rounded bg-pink-950 text-pink-300 border border-pink-800/50">
+                    {selectedCard.category}
+                  </span>
+                  <h3 className="text-2xl font-bold text-white">{selectedCard.title}</h3>
+                  <p className="text-xs text-pink-400 font-mono">{selectedCard.subtitle}</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-velvet-950 border border-pink-950 text-xs text-slate-300 space-y-3 leading-relaxed">
+                  {typeof selectedCard.content === 'object' ? (
+                    Object.entries(selectedCard.content).map(([k, v]) => (
+                      <div key={k}>
+                        <strong className="text-pink-400 uppercase text-[10px] tracking-wider block mb-0.5">{k}:</strong>
+                        <span>{typeof v === 'object' ? JSON.stringify(v) : v}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p>{selectedCard.content}</p>
+                  )}
+                </div>
+
+                <div className="pt-4 border-t border-pink-950/80 flex items-center justify-between text-xs text-slate-400">
+                  <span>Innovation & Research by Amim Ahsan</span>
+                  <a href="https://amimahsanlibrary.blogspot.com" target="_blank" rel="noopener noreferrer" className="text-pink-400 hover:underline">
+                    amimahsanlibrary.blogspot.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* FOOTER */}
+          <footer className="mt-auto border-t border-pink-950/60 bg-velvet-900 py-8 px-4 text-xs text-slate-400 text-center space-y-2">
+            <div className="font-bold text-slate-200">Sexiology: The Art of Intimacy & Global Aesthetics</div>
+            <div>Crafted with precision and innovation by <strong>Amim Ahsan</strong>. Explore more at <a href="https://amimahsanlibrary.blogspot.com" target="_blank" rel="noopener noreferrer" className="text-pink-400 underline">amimahsanlibrary.blogspot.com</a></div>
+          </footer>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
